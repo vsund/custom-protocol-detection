@@ -146,10 +146,19 @@ function openUriWithMsLaunchUri(uri, failCb, successCb) {
 
 function checkBrowser() {
     var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+    function isSafari() {
+      var ua = navigator.userAgent.toLowerCase();
+      var re = new RegExp("safari");
+      var re2 = new RegExp("chrome");
+
+      return re.exec(ua) && !re2.exec(ua)
+    }
+
     return {
         isOpera   : isOpera,
         isFirefox : typeof InstallTrigger !== 'undefined',
-        isSafari  : Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0,
+        isSafari  : isSafari(),
         isChrome  : !!window.chrome && !isOpera,
         isIE      : /*@cc_on!@*/false || !!document.documentMode // At least IE6
     }
