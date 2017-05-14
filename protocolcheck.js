@@ -182,7 +182,7 @@ function getInternetExplorerVersion() {
     return rv;
 }
 
-module.exports = function(uri, successCb, failCb, unsupportedCb) {
+module.exports = function(uri, failCb, successCb, unsupportedCb) {
     function failCallback() {
         failCb && failCb();
     }
@@ -199,17 +199,22 @@ module.exports = function(uri, successCb, failCb, unsupportedCb) {
     }
 
     if (navigator.msLaunchUri) { //for IE and Edge in Win 8 and Win 10
+        console.log('openUriWithMsLaunchUri')
         openUriWithMsLaunchUri(uri, failCb, successCb);
     } else {
         var browser = checkBrowser();
 
         if (browser.isFirefox) {
+            console.log('openUriUsingFirefox')
             openUriUsingFirefox(uri, failCallback, successCallback);
         } else if (browser.isChrome) {
+            console.log('openUriWithTimeoutHack')
             openUriWithTimeoutHack(uri, failCallback, successCallback);
         } else if (browser.isIE) {
+            console.log('openUriUsingIEInOlderWindows')
             openUriUsingIEInOlderWindows(uri, failCallback, successCallback);
         } else {
+            console.log('unsupported browser')
             unsupportedCallback()
         }
     }

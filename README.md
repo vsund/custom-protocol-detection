@@ -13,12 +13,13 @@ The implementation is different from one browser to another, sometimes depend on
 
 ```JavaScript
 import protocolCheck from 'custom-protocol-detection'
+const uri = 'customprotocol:datahere'
 protocolCheck(uri,
   () => {
-    console.log('This browser supports the protocol')
+    console.log('This browser does not support the protocol')
   },
   () => {
-    console.log('This browser does not support the protocol')
+    console.log('This browser supports the protocol')
   },
   () => {
     console.log('This browser does not provide a method to detect protocol support')
