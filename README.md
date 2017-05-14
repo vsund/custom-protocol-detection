@@ -7,6 +7,21 @@ The implementation is different from one browser to another, sometimes depend on
 * Chrome: using window onBlur to detect whether the focus is stolen from the browser. When the focus is stolen, it assumes that the custom protocol launches external app and therefore it exists.
 * IEs and Edge in Win 8/Win 10: the cleanest solution. IEs and Edge in Windows 8 and Windows 10 does provide an API to check the existence of custom protocol handlers.
 * Other IEs: various different implementation. Worth to notice that even the same IE version might have a different behavior (I suspect due to different commit number). It means that for these IEs, the implementation is the least reliable.
+* Other browsers (like Safari): Call the unsupported protocol callback (if provided) otherwise call the fail callback
+
+# Usage
+
+```JavaScript
+import protocolCheck from 'custom-protocol-detection'
+protocolCheck(uri,
+  () => {
+    console.log('This browser supports the protocol')
+  }, {
+    console.log('This browser does not support the protocol')
+  }, {
+    console.log('This browser does not provide a method to detect protocol support')
+  })
+```
 
 # Known Issues
 

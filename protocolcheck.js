@@ -182,13 +182,20 @@ function getInternetExplorerVersion() {
     return rv;
 }
 
-module.exports = function(uri, failCb, successCb) {
+module.exports = function(uri, successCb, failCb, unsupportedCb) {
     function failCallback() {
         failCb && failCb();
     }
 
     function successCallback() {
         successCb && successCb();
+    }
+
+    function unsupportedCallback() {
+        if (unsupportedCb)
+          unsupportedCb();
+        else
+          failCallback();
     }
 
     if (navigator.msLaunchUri) { //for IE and Edge in Win 8 and Win 10
@@ -203,8 +210,7 @@ module.exports = function(uri, failCb, successCb) {
         } else if (browser.isIE) {
             openUriUsingIEInOlderWindows(uri, failCallback, successCallback);
         } else {
-            //not supported, implement please
-            failCallback();
+            unsupportedCallback()
         }
     }
 }
